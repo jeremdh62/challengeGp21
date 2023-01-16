@@ -52,7 +52,6 @@ services:
     working_dir: /app
     tty: true
     stdin_open: true
-    command: npm run dev
     ports:
       - 8001:4000
     volumes:
