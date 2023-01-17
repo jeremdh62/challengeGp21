@@ -39,8 +39,6 @@ services:
       - ./php/vhosts:/etc/apache2/sites-enabled
       - ./back:/var/www/html:rw
     restart: always
-    ports:
-      - "8000:80"
     depends_on:
       - db
     networks:
