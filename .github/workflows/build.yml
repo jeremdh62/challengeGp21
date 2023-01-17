@@ -1,0 +1,32 @@
+name: build_test
+
+on:
+  push:
+
+jobs:
+
+  build-back:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+        with:
+          working_dir: ./back
+          args: --prefer-dist --no-progress --no-suggest
+      
+      - name: PHPUnit
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: ./back/phpunit.xml.dist
+          memory_limit: 256M
+          
+  build-front:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16 
+      - run: cd front && npm ci
+      - run: cd front && npm run build
+      - run: cd front && npm run test:unit
