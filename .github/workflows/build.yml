@@ -8,12 +8,12 @@ jobs:
   build-back:
     runs-on: ubuntu-latest
     env:
-      working_directory: ./back
+      working-directory: ./back
     steps:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
-          working_dir: ./back
+          #working_dir: ./back
           args: --prefer-dist --no-progress --no-suggest
       
       - name: PHPUnit
