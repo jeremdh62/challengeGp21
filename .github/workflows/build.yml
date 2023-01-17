@@ -15,10 +15,9 @@ jobs:
           args: --prefer-dist --no-progress --no-suggest
       
       - name: PHPUnit
+        run: cd back
         uses: chindit/actions-phpunit-symfony@master
-        with:
-          entryPoint: ./back
-
+          
   build-front:
     runs-on: ubuntu-latest
     steps:
