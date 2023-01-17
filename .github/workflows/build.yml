@@ -18,7 +18,6 @@ jobs:
       
       - name: PHPUnit
         uses: chindit/actions-phpunit-symfony@master
-        with:
           
   build-front:
     runs-on: ubuntu-latest
