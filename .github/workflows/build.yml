@@ -15,7 +15,7 @@ jobs:
         run: cd back && composer install --prefer-dist --no-progress --no-suggest
       
       - name: PHPUnit
-        uses: cd back && chindit/actions-phpunit-symfony@master
+        uses: chindit/actions-phpunit-symfony@master
 
   build-front:
     runs-on: ubuntu-latest
