@@ -15,8 +15,10 @@ jobs:
           args: --prefer-dist --no-progress --no-suggest
       
       - name: PHPUnit
-        uses: chindit/actions-phpunit-symfony@master
-        working-dir: ./back
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: ./back/phpunit.xml.dist
+          memory_limit: 256M
           
   build-front:
     runs-on: ubuntu-latest
