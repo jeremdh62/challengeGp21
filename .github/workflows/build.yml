@@ -7,18 +7,16 @@ jobs:
 
   build-back:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./back
     steps:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
+          working_dir: ./back
           args: --prefer-dist --no-progress --no-suggest
-        working-directory: ${{ env.working-directory }}
       
       - name: PHPUnit
         uses: chindit/actions-phpunit-symfony@master
-        working-directory: ${{ env.working-directory }}
+        working-dir: ./back
           
   build-front:
     runs-on: ubuntu-latest
