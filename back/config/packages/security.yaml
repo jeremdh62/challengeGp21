@@ -1,4 +1,7 @@
 security:
+    role_hierarchy:
+        ROLE_ADMIN: ['ROLE_MODERATOR']
+        ROLE_MODERATOR: ['ROLE_USER']
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -36,8 +39,8 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI docs
         - { path: ^/auth, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
-    
+        - { path: ^/users, methods: Post, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY } 
     
 
 when@test:

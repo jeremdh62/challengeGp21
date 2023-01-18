@@ -5,15 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 #[ApiResource]
 class Media
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -24,7 +26,7 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'medias')]
     private ?User $owner = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

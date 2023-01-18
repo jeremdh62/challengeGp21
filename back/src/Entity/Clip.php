@@ -5,15 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ClipRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ClipRepository::class)]
 #[ApiResource]
 class Clip
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $path = null;
@@ -31,7 +33,7 @@ class Clip
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

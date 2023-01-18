@@ -5,15 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SignaledCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SignaledCommentRepository::class)]
 #[ApiResource]
 class SignaledComment
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'signaledComments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -27,7 +29,7 @@ class SignaledComment
     #[ORM\JoinColumn(nullable: false)]
     private ?Comment $comment = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
