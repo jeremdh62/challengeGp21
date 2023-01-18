@@ -12,6 +12,7 @@ Install the dependencies in front and back in the container docker
 $ docker compose exec back /bin/sh
 $ cd html
 $ composer install
+$ php bin/console lexik:jwt:generate-keypair
 ```
 
 ### Front
