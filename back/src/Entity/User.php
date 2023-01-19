@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\ResetPasswordController;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,7 +32,12 @@ use Symfony\Component\Uid\Uuid;
     processor: UserPasswordHasher::class
 )]
 #[Post(processor: UserPasswordHasher::class)]
-#[Patch(processor: UserPasswordHasher::class)]
+#[Patch(
+    uriTemplate: 'users/reset/password',
+    controller: ResetPasswordController::class,
+    name: 'reset-password',
+    processor: UserPasswordHasher::class,
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
