@@ -5,19 +5,33 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
+use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ApiResource]
-#[Get()]
-#[GetCollection()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['user']],
+    denormalizationContext: ['groups' => ['user', 'user_write']],
+)]
+#[Get(security: "is_granted('ROLE_MODERATOR') or object == user")]
+#[GetCollection(security: "is_granted('ROLE_MODERATOR')")]
+#[Put(
+    security: "is_granted('ROLE_ADMIN') or object == user",
+    processor: UserPasswordHasher::class
+)]
+#[Post(processor: UserPasswordHasher::class)]
+#[Patch(processor: UserPasswordHasher::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -27,6 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups("user")]
     private ?string $username = null;
 
     #[ORM\Column]
@@ -36,12 +51,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups("user_write")]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("user")]
     private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Comment::class)]
