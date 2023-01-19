@@ -22,6 +22,10 @@
         ></v-text-field>
       </v-card-text>
 
+      <v-btn color="primary" variant="plain" @click="navigateTo('register')">
+        Create Account
+      </v-btn>
+
       <v-divider></v-divider>
 
       <v-card-actions>
@@ -70,6 +74,9 @@ export default {
             console.log(error);
           }
         );
+    },
+    navigateTo(route) {
+      this.$router.push({ name: route });
     },
   },
 };

@@ -1,6 +1,3 @@
-<script setup>
-import { RouterLink } from "vue-router";
-</script>
 <template>
   <v-app-bar color="primary" density="compact">
     <v-app-bar-nav-icon
@@ -8,19 +5,25 @@ import { RouterLink } from "vue-router";
       @click.stop="drawer = !drawer"
     ></v-app-bar-nav-icon>
 
-    <v-app-bar-title>App</v-app-bar-title>
+    <v-app-bar-title @click="navigateTo('home')">App</v-app-bar-title>
+
+    <v-spacer></v-spacer>
+
+    <!-- connect -->
+    <v-btn icon @click="navigateTo('login')">
+      <v-icon>mdi-account-circle</v-icon>
+    </v-btn>
   </v-app-bar>
 
   <v-navigation-drawer v-model="drawer" temporary>
     <v-list density="compact" nav>
-      <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home">
-        <RouterLink to="/"></RouterLink>
-      </v-list-item>
       <v-list-item
-        prepend-icon="mdi-forum"
-        title="About"
-        value="about"
-      ></v-list-item>
+        prepend-icon="mdi-home"
+        title="Home"
+        value="home"
+        @click="navigateTo('home')"
+      >
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -30,5 +33,10 @@ export default {
   data: () => ({
     drawer: false,
   }),
+  methods: {
+    navigateTo(route) {
+      this.$router.push({ name: route });
+    },
+  },
 };
 </script>
