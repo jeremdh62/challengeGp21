@@ -48,6 +48,11 @@ export default {
     password: "",
     passwordRules: [(v) => !!v || "Password is required"],
   }),
+  mounted() {
+    if (this.$store.state.user.id != "") {
+      this.$router.push({ name: "home" });
+    }
+  },
 
   computed: {
     ...mapState(["status"], ["user"]),

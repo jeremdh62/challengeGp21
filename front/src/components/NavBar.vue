@@ -37,6 +37,9 @@ export default {
     navigateTo(route) {
       this.$router.push({ name: route });
     },
+    logout() {
+      this.$store.dispatch("logout");
+    },
   },
 };
 </script>

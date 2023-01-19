@@ -78,7 +78,11 @@ export default {
   computed: {
     ...mapState(["status"]),
   },
-
+  mounted() {
+    if (this.$store.state.user.id != "") {
+      this.$router.push({ name: "home" });
+    }
+  },
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate();

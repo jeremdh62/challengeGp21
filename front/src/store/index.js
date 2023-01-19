@@ -8,7 +8,7 @@ const instance = axios.create({
 let user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
   user = {
-    id: -1,
+    id: "",
     token: "",
   };
 } else {
@@ -17,7 +17,7 @@ if (!user) {
     instance.defaults.headers.common["Authorization"] = user.token;
   } catch (error) {
     user = {
-      id: -1,
+      id: "",
       token: "",
     };
   }
@@ -41,6 +41,13 @@ const store = createStore({
     },
     userInfo: (state, userInfo) => {
       state.userInfo = userInfo;
+    },
+    logout: (state) => {
+      state.user.id = "";
+      state.user.token = "";
+      state.userInfo = {};
+      localStorage.removeItem("user");
+      delete instance.defaults.headers.common["Authorization"];
     },
   },
   getters: {
