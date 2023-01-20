@@ -66,9 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Uuid $id = null;
     
     #[ORM\Column(length: 180, unique: true)]
-    #[Asserts\Unique]
     #[Asserts\NotBlank()]
-    #[Groups(['get_user', 'getc_user'])]
+    #[Groups(['get_user', 'user_write', 'getc_user'])]
     private ?string $username = null;
     
     #[ORM\Column]
