@@ -16,21 +16,20 @@ class ResetPasswordController extends AbstractController
         private ManagerRegistry $managerRegistry
     ) {}
 
-    public function __invoke()
+    public function __invoke(User $user)
     {
         // TODO : Secure if not email in body
-        $email = json_decode($this->requestStack->getCurrentRequest()->getContent())->email;
-
+        // $email = json_decode($this->requestStack->getCurrentRequest()->getContent())->email;
+        
         /** @var User $user */
-        if (!$user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $email])) {
+        if (!$user = $this->managerRegistry->getRepository(User::class)->findOneBy(['email' => $user->getEmail()])) {
             throw $this->createNotFoundException();
         }
-
+        
         $user->setToken(bin2hex(random_bytes(32)));
         $this->managerRegistry->getManager()->flush();
-
+        
         // TODO : send email
-
         return $this->json('Success');
     }
 }
