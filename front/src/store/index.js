@@ -66,7 +66,7 @@ const store = createStore({
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
-          .post("/api/user", userInfo)
+          .post("/users", userInfo)
           .then((response) => {
             resolve(response);
             commit("setStatus", "createdAccount");

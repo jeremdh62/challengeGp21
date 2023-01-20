@@ -68,7 +68,7 @@ export default {
     login() {
       this.$store
         .dispatch("login", {
-          name: this.name,
+          username: this.username,
           password: this.password,
         })
         .then(
