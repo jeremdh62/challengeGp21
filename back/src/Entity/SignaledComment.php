@@ -30,12 +30,12 @@ class SignaledComment
 
     #[ORM\ManyToOne(inversedBy: 'mySignaledComments')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_SignaledComment'])]
+    #[Groups(['read_SignaledComment', 'write_SignaledComment'])]
     private ?User $signaledUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'signaledComments')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read_SignaledComment'])]
+    #[Groups(['read_SignaledComment', 'write_SignaledComment'])]
     private ?Comment $comment = null;
 
     public function getId(): ?Uuid

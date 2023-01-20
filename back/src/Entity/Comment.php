@@ -26,7 +26,7 @@ class Comment
     private ?Uuid $id = null;
 
     #[ORM\Column]
-    #[Groups((['read_Comment']))]
+    #[Groups(['read_Comment'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
@@ -37,18 +37,20 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_Comment', 'write_Comment'])]
     private ?Forum $forum = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups((['read_Comment', 'write_Comment']))]
+    #[Groups(['read_Comment', 'write_Comment'])]
     private ?string $content = null;
 
     #[ORM\OneToMany(mappedBy: 'comment', targetEntity: SignaledComment::class)]
-    #[Groups((['read_Comment']))]
+    #[Groups(['read_Comment'])]
     private Collection $signaledComments;
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
         $this->signaledComments = new ArrayCollection();
     }
 

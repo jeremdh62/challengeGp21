@@ -36,7 +36,7 @@ class Forum
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read_Forum', 'write_Forum'])]
+    #[Groups(['read_Forum', 'read_Comment', 'write_Forum'])]
     private ?string $title = null;
 
     #[ORM\Column]
