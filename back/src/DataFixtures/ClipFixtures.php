@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Clip;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -12,11 +13,11 @@ class ClipFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
+
         $users = $manager->getRepository(User::class)->findAll();
 
-        $faker = Factory::create('fr_FR');
-        
-        for ($nbArticle=0; $nbArticle < 20; $nbArticle++) { 
+        for ($nbClip=0; $nbClip < 20; $nbClip++) { 
             $object = (new Clip())
                 ->setTitle($faker->sentence(6, true))
                 ->setPath('https://www.youtube.com/watch?v=QH2-TGUlwu4')
@@ -32,7 +33,7 @@ class ClipFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class,
+            UserFixtures::class
         ];
     }
 }

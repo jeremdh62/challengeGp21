@@ -3,19 +3,21 @@
 namespace App\DataFixtures;
 
 use App\Entity\Forum;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ForumFixtures extends Fixture
+class ForumFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $users = $manager->getRepository(User::class)->findAll();
-
         $faker = Factory::create('fr_FR');
+
+        $users = $manager->getRepository(User::class)->findAll();
         
-        for ($nbArticle=0; $nbArticle < 20; $nbArticle++) { 
+        for ($nbForum=0; $nbForum < 20; $nbForum++) { 
             $object = (new Forum())
                 ->setTitle($faker->sentence(6, true))
                 ->setContent($faker->paragraph(10, true))

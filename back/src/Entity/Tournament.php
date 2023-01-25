@@ -45,6 +45,9 @@ class Tournament
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -159,6 +162,18 @@ class Tournament
     public function setStartAt(\DateTimeImmutable $startAt): self
     {
         $this->startAt = $startAt;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

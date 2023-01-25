@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -12,9 +13,8 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $moderators = $manager->getRepository(User::class)->findBy(['roles' => 'ROLE_MODERATOR']);
-
         $faker = Factory::create('fr_FR');
+        $moderators = $manager->getRepository(User::class)->findAll();
         
         for ($nbArticle=0; $nbArticle < 20; $nbArticle++) { 
             $object = (new Article())
@@ -32,7 +32,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class,
+            UserFixtures::class
         ];
     }
 }
