@@ -1,20 +1,25 @@
 <template>
-  <div v-for="article in getArticles" :key="article.id">
-    <v-card class="mx-auto" max-width="344">
-      <v-card-text>
-        <p class="text-h4 text--primary">{{ article.title }}</p>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-          text
-          color="teal accent-4"
-          @click="linkArticle('article', article.id)"
-        >
-          Learn More
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </div>
+  <v-row>
+    <v-col v-for="article in getArticles" :key="article.id">
+      <v-card class="mx-auto" max-width="344">
+        <v-img src="img/nba2k_tuto.jpg" height="150px" cover></v-img>
+
+        <v-card-title> {{ article.title }} </v-card-title>
+
+        <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
+
+        <v-card-actions>
+          <v-btn
+            text
+            color="teal accent-4"
+            @click="linkArticle('article', article.id)"
+          >
+            Learn More
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
