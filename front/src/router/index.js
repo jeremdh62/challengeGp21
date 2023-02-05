@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import DashboardView from "../views/Admin/DasboardView.vue";
+import AdminArticlesView from "../views/Admin/AdminArticlesView.vue";
+import AdminArticleEditView from "../views/Admin/AdminArticleEditView.vue";
 //import store from "../store";
 
 const router = createRouter({
@@ -15,6 +18,21 @@ const router = createRouter({
         store.state.user.id == "" || store.state.user.token == ""
           ? "/login"
           : "",*/
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: DashboardView,
+    },
+    {
+      path: "/admin/articles",
+      name: "admin-articles",
+      component: AdminArticlesView,
+    },
+    {
+      path: "/admin/articles/:id",
+      name: "admin-article-edit",
+      component: AdminArticleEditView,
     },
     {
       path: "/login",
