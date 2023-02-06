@@ -5,10 +5,15 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read_Media']],
+    denormalizationContext: ['groups' => ['write_Media']]
+)]
 class Media
 {
     #[ORM\Id]
@@ -18,12 +23,16 @@ class Media
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read_Media', 'write_Media'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read_Media', 'write_Media'])]
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'medias')]
+    #[Groups(['read_Media'])]
+    #[Blameable(on: 'create')]
     private ?User $owner = null;
 
     public function getId(): ?Uuid

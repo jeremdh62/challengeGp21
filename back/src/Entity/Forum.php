@@ -8,10 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ForumRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read_Forum']],
+    denormalizationContext: ['groups' => ['write_Forum']]
+)]
 class Forum
 {
     #[ORM\Id]
@@ -22,25 +27,33 @@ class Forum
 
     #[ORM\ManyToOne(inversedBy: 'forums')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_Forum'])]
+    #[Blameable(on: 'create')]
     private ?User $createdBy = null;
 
     #[ORM\Column]
+    #[Groups(['read_Forum'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read_Forum', 'read_Comment', 'write_Forum'])]
     private ?string $title = null;
 
     #[ORM\Column]
-    private ?bool $isValid = null;
+    #[Groups(['read_Forum'])]
+    private ?bool $isValid = false;
 
     #[ORM\OneToMany(mappedBy: 'forum', targetEntity: Comment::class)]
+    #[Groups(['read_Forum'])]
     private Collection $comments;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['read_Forum', 'write_Forum'])]
     private ?string $content = null;
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
         $this->comments = new ArrayCollection();
         $this->isValid = false;
     }
