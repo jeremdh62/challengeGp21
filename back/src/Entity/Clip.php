@@ -47,6 +47,7 @@ class Clip
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
+        $this->isValid = false;
     }
 
     public function getId(): ?Uuid

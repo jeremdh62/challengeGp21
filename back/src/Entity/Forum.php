@@ -55,6 +55,7 @@ class Forum
     {
         $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
         $this->comments = new ArrayCollection();
+        $this->isValid = false;
     }
 
     public function getId(): ?Uuid

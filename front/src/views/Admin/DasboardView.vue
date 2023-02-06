@@ -2,6 +2,6 @@
 
 <template>
   <v-container>
-    <p>Home</p>
+    <p>Dashboard</p>
   </v-container>
 </template>
