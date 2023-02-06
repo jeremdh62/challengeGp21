@@ -163,6 +163,36 @@ const data = {
       createdBy: "/users/1ed9be74-49cb-65f6-821a-d91fc6ecb6f3",
     },
   ],
+  user_log: {
+    id: "1ed9be74-4a24-6732-92ad-d91fc6ecb6f3",
+    username: "admin",
+    password: "admin",
+    email: "admin@localhost.com",
+    roles: ["ROLE_ADMIN"],
+  },
+  users: [
+    {
+      id: "1ed9be74-4a1f-6f84-a297-d91fc6ecb6f3",
+      username: "user1",
+      password: "user1",
+      email: "user1@test.com",
+      roles: ["ROLE_USER"],
+    },
+    {
+      id: "1ed9be74-4a30-6d3e-9eef-d91fc6ecb6f3",
+      username: "user2",
+      password: "user2",
+      email: "user2@test.com",
+      roles: ["ROLE_USER"],
+    },
+    {
+      id: "1ed9be74-4a2d-6968-801b-d91fc6ecb6f3",
+      username: "moderator",
+      password: "moderator",
+      email: "moderator@test.com",
+      roles: ["ROLE_MODERATOR"],
+    },
+  ],
 };
 
 export default data;
