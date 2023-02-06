@@ -19,6 +19,7 @@ jobs:
         with:
           configuration: ./back/phpunit.xml.dist
           memory_limit: 256M
+          version: 9
           
   build-front:
     runs-on: ubuntu-latest
