@@ -33,6 +33,12 @@ class Clip
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+    public function __construct()
+    {
+        $this->isValid = false;
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

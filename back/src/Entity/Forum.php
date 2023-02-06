@@ -42,6 +42,7 @@ class Forum
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->isValid = false;
     }
 
     public function getId(): ?Uuid
