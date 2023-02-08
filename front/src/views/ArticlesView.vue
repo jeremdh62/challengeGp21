@@ -2,12 +2,10 @@
 import CardArticle from "../components/CardArticle.vue";
 </script>
 <template>
-  <div>
-    <!--<h1>{{ article.title }}</h1>
-    <p>{{ article.content }}</p>-->
-
+  <v-container>
+    <h1 class="text-h2 text-center mb-10">Articles</h1>
     <div>
       <CardArticle></CardArticle>
     </div>
-  </div>
+  </v-container>
 </template>
