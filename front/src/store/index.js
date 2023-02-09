@@ -57,6 +57,9 @@ const store = createStore({
     setArticles: (state, articles) => {
       state.articles = articles;
     },
+    deleteArticle: (state, article) => {
+      state.articles = state.articles.filter((a) => a.id !== article.id);
+    },
   },
   getters: {
     getStatus: (state) => {
@@ -143,10 +146,11 @@ const store = createStore({
           });
       });
     },
-    deleteArticle: ({ commit }, article) => {
+    createArticle: ({ commit }, article) => {
+      article.createdAt = new Date();
       return new Promise((resolve, reject) => {
         instance
-          .delete("/articles/" + article.id)
+          .post("/articles", article)
           .then((response) => {
             commit;
             resolve(response);
@@ -155,7 +159,20 @@ const store = createStore({
             reject(error);
           });
       });
-    }
+    },
+    deleteArticle: ({ commit }, article) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .delete("/articles/" + article.id)
+          .then((response) => {
+            commit("deleteArticle", article);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
   },
 });
 

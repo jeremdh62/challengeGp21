@@ -4,6 +4,7 @@
       :headers="headers"
       :objectValues="getArticles"
       routeEdit="admin-article-edit"
+      actionDelete="deleteArticle"
     ></TableAdmin>
   </v-container>
 </template>

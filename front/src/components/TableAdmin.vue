@@ -1,4 +1,5 @@
 <template>
+  <v-btn color="primary" @click="linkEdit(routeEdit, 'new')"> Add </v-btn>
   <v-table>
     <thead>
       <tr>
@@ -14,10 +15,12 @@
           {{ object[item.value] }}
         </td>
         <td>
-          <v-btn color="primary" @click="linkEdit(routeEdit, object.id)"
-            >Edit</v-btn
-          >
-          <v-btn color="error">Delete</v-btn>
+          <v-btn color="primary" @click="linkEdit(routeEdit, object.id)">
+            Edit
+          </v-btn>
+          <v-btn color="error" @click="deleteItem(actionDelete, object)">
+            Delete
+          </v-btn>
         </td>
       </tr>
     </tbody>
@@ -31,10 +34,6 @@ export default {
       type: Array,
       required: true,
     },
-    items: {
-      type: Array,
-      required: true,
-    },
     objectValues: {
       type: Object,
       required: true,
@@ -43,10 +42,17 @@ export default {
       type: String,
       required: true,
     },
+    actionDelete: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     linkEdit(route, id) {
       this.$router.push({ name: route, params: { id: id } });
+    },
+    deleteItem(actions, item) {
+      this.$store.dispatch(actions, item);
     },
   },
 };

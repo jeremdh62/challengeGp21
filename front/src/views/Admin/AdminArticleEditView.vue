@@ -39,6 +39,9 @@ export default {
     },
   }),
   mounted() {
+    if (this.$route.params.id == "new") {
+      return;
+    }
     let requestArticles = this.$store.dispatch("getAllArticles");
 
     requestArticles.then(() => {
@@ -55,6 +58,12 @@ export default {
       this.$router.push({ name: route });
     },
     validate() {
+      if (this.$route.params.id == "new") {
+        this.$store.dispatch("createArticle", this.article).then(() => {
+          this.navigate("admin-articles");
+        });
+        return;
+      }
       this.$store.dispatch("updateArticle", this.article).then(() => {
         this.navigate("admin-articles");
       });
