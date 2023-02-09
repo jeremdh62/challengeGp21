@@ -30,6 +30,11 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?User $createdBy = null;
 
+     public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

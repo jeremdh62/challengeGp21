@@ -1,8 +1,5 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import data from "../data.js";
-
-const dataArticles = data.articles;
 
 const instance = axios.create({
   baseURL: "http://localhost:8000",
@@ -59,6 +56,9 @@ const store = createStore({
     },
     setArticles: (state, articles) => {
       state.articles = articles;
+    },
+    deleteArticle: (state, article) => {
+      state.articles = state.articles.filter((a) => a.id !== article.id);
     },
   },
   getters: {
@@ -122,12 +122,54 @@ const store = createStore({
     },
     getAllArticles: ({ commit }) => {
       return new Promise((resolve, reject) => {
-        if (dataArticles) {
-          resolve(dataArticles);
-          commit("setArticles", dataArticles);
-        } else {
-          reject("error");
-        }
+        instance
+          .get("/articles")
+          .then((response) => {
+            commit("setArticles", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    updateArticle: ({ commit }, article) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .put("/articles/" + article.id, article)
+          .then((response) => {
+            commit;
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    createArticle: ({ commit }, article) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/articles", article)
+          .then((response) => {
+            commit;
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    deleteArticle: ({ commit }, article) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .delete("/articles/" + article.id)
+          .then((response) => {
+            commit("deleteArticle", article);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
     },
   },

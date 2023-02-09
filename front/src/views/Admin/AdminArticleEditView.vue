@@ -1,23 +1,68 @@
 <template>
   <v-container>
-    <v-form ref="form">
-      <v-text-field label="Title" required></v-text-field>
-      <QuillEditor theme="snow" />
+    <v-btn @click="navigate('admin-articles')" color="teal accent-4 mb-5">
+      Back
+    </v-btn>
+    <v-form>
+      <v-text-field
+        label="Title"
+        v-model="article.title"
+        required
+      ></v-text-field>
+      <QuillEditor
+        contentType="html"
+        v-model:content="article.content"
+        toolbar="full"
+        theme="snow"
+      />
       <div class="d-flex flex-column">
-        <v-btn color="success" class="mt-4" block> Validate </v-btn>
-        <v-btn color="error" class="mt-4" block> Cancel </v-btn>
+        <v-btn color="success" class="mt-4" @click="validate" block>
+          Validate
+        </v-btn>
       </div>
     </v-form>
   </v-container>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "AdminArticleEditView",
-  data() {
-    return {
+  data: () => ({
+    article: {
       title: "",
       content: "",
-    };
+    },
+  }),
+  mounted() {
+    if (this.$route.params.id == "new") {
+      return;
+    }
+    let requestArticles = this.$store.dispatch("getAllArticles");
+
+    requestArticles.then(() => {
+      this.article = this.getArticles.find(
+        (article) => article.id == this.$route.params.id
+      );
+    });
+  },
+  computed: {
+    ...mapGetters(["getArticles"]),
+  },
+  methods: {
+    navigate(route) {
+      this.$router.push({ name: route });
+    },
+    validate() {
+      if (this.$route.params.id == "new") {
+        this.$store.dispatch("createArticle", this.article).then(() => {
+          this.navigate("admin-articles");
+        });
+        return;
+      }
+      this.$store.dispatch("updateArticle", this.article).then(() => {
+        this.navigate("admin-articles");
+      });
+    },
   },
 };
 </script>
