@@ -147,7 +147,6 @@ const store = createStore({
       });
     },
     createArticle: ({ commit }, article) => {
-      article.createdAt = new Date();
       return new Promise((resolve, reject) => {
         instance
           .post("/articles", article)
