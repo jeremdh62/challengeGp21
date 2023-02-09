@@ -24,6 +24,20 @@
         @click="navigateTo('home')"
       >
       </v-list-item>
+      <v-list-item
+        prepend-icon="mdi-newspaper"
+        title="Aticles"
+        value="articles"
+        @click="navigateTo('articles')"
+      >
+      </v-list-item>
+      <v-list-item
+        prepend-icon="mdi-monitor-dashboard"
+        title="admin"
+        value="admin"
+        @click="navigateTo('admin')"
+      >
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

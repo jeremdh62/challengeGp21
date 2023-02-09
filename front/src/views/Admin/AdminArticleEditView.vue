@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-btn @click="navigate('admin-articles')" color="teal accent-4 mb-5">
+      Back
+    </v-btn>
     <v-form>
       <v-text-field
         label="Title"
@@ -15,14 +18,6 @@
       <div class="d-flex flex-column">
         <v-btn color="success" class="mt-4" @click="validate" block>
           Validate
-        </v-btn>
-        <v-btn
-          color="error"
-          class="mt-4"
-          @click="navigate('admin-articles')"
-          block
-        >
-          Cancel
         </v-btn>
       </div>
     </v-form>

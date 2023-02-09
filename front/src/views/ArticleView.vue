@@ -1,8 +1,6 @@
 <template>
   <v-container>
-    <v-btn text color="teal accent-4" @click="navigate('articles')">
-      Back
-    </v-btn>
+    <v-btn text color="teal accent-4 mb-5" @click="back()"> Back </v-btn>
     <v-card class="text-center">
       <v-card-title>
         <div>
@@ -36,6 +34,9 @@ export default {
   methods: {
     navigate(route) {
       this.$router.push({ name: route });
+    },
+    back() {
+      this.$router.go(-1);
     },
   },
 };

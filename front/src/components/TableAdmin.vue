@@ -1,5 +1,10 @@
 <template>
-  <v-btn color="primary" @click="linkEdit(routeEdit, 'new')"> Add </v-btn>
+  <div
+    class="d-flex justify-space-between align-center flex-column flex-sm-row fill-height"
+  >
+    <v-btn color="teal accent-4" @click="navigator('admin')"> Back </v-btn>
+    <v-btn color="primary" @click="linkEdit(routeEdit, 'new')"> Add </v-btn>
+  </div>
   <v-table>
     <thead>
       <tr>
@@ -48,6 +53,9 @@ export default {
     },
   },
   methods: {
+    navigator(route) {
+      this.$router.push({ name: route });
+    },
     linkEdit(route, id) {
       this.$router.push({ name: route, params: { id: id } });
     },
