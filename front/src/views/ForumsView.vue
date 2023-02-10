@@ -1,6 +1,13 @@
 <template>
   <v-container>
-    <v-btn color="teal accent-4" @click="navigateTo('home')"> Back </v-btn>
+    <div
+      class="d-flex justify-space-between align-center flex-column flex-sm-row fill-height"
+    >
+      <v-btn color="teal accent-4" @click="navigateTo('home')"> Back </v-btn>
+      <v-btn color="primary" @click="navigateEdit('forum-edit', 'new')">
+        Add
+      </v-btn>
+    </div>
     <h1 class="text-h2 text-center mb-10">Forums</h1>
     <div>
       <v-row class="mb-6" no-gutters align-content="space-evenly">
@@ -30,6 +37,9 @@ export default {
   methods: {
     navigateTo(route) {
       this.$router.push({ name: route });
+    },
+    navigateEdit(route, id) {
+      this.$router.push({ name: route, params: { id: id } });
     },
   },
   computed: {

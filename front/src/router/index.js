@@ -9,6 +9,7 @@ import ForumsView from "../views/ForumsView.vue";
 import ForumView from "../views/ForumView.vue";
 import AdminForumsView from "../views/Admin/AdminForumsView.vue";
 import AdminForumEditView from "../views/Admin/AdminForumEditView.vue";
+import ForumEdit from "../views/ForumEditView.vue";
 //import store from "../store";
 
 const router = createRouter({
@@ -72,6 +73,11 @@ const router = createRouter({
       path: "/forums",
       name: "forums",
       component: ForumsView,
+    },
+    {
+      path: "/forums/edit/:id",
+      name: "forum-edit",
+      component: ForumEdit,
     },
     {
       path: "/register",
