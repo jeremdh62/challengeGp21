@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ForumRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +19,10 @@ use Symfony\Component\Uid\Uuid;
     normalizationContext: ['groups' => ['read_Forum']],
     denormalizationContext: ['groups' => ['write_Forum']]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'isValid' => 'exact',
+    'createdBy' => 'exact',
+])]
 class Forum
 {
     #[ORM\Id]

@@ -12,6 +12,32 @@
       <v-card-text>
         <div v-html="forum.content"></div>
       </v-card-text>
+
+      <h5 class="text-h5 text-left ml-5 mb-5">Comments</h5>
+      <v-textarea v-model="comment" label="Add a comment"></v-textarea>
+      <v-btn rounded="lg" @click="createComment()" color="success">
+        Send comment
+      </v-btn>
+      <div v-if="comments.length > 0">
+        <v-list
+          v-for="comment in comments"
+          :key="comment.id"
+          lines="three"
+          class="text-left"
+        >
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ comment.createdBy.username }}</v-list-item-title
+              >
+              <v-list-item-subtitle>
+                {{ comment.content }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+        </v-list>
+      </div>
     </v-card>
   </v-container>
 </template>
@@ -20,16 +46,25 @@ import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
-    forum: {},
+    forum: {
+      title: "",
+      content: "",
+    },
+    comments: [],
+    comment: "",
   }),
   mounted() {
-    this.$store.dispatch("getAllForums");
-    this.forum = this.getForums.find(
-      (forum) => forum.id == this.$route.params.id
-    );
+    this.$store.dispatch("getAllForums").then(() => {
+      this.forum = this.getForums.find(
+        (forum) => forum.id == this.$route.params.id
+      );
+    });
+    this.$store.dispatch("getAllComments", this.$route.params.id).then(() => {
+      this.comments = this.getComments;
+    });
   },
   computed: {
-    ...mapGetters(["getForums"]),
+    ...mapGetters(["getForums", "getComments"]),
   },
   methods: {
     navigate(route) {
@@ -37,6 +72,12 @@ export default {
     },
     back() {
       this.$router.go(-1);
+    },
+    createComment() {
+      this.$store.dispatch("createComment", {
+        content: this.comment,
+        forum: "/forums/" + this.$route.params.id,
+      });
     },
   },
 };

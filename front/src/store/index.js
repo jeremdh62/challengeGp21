@@ -33,7 +33,8 @@ const store = createStore({
     user: user,
     userInfo: {},
     articles: [],
-    foums: [],
+    forums: [],
+    comments: [],
   },
   mutations: {
     setStatus: (state, status) => {
@@ -67,6 +68,9 @@ const store = createStore({
     deleteForum: (state, forum) => {
       state.forums = state.forums.filter((f) => f.id !== forum.id);
     },
+    setComments: (state, comments) => {
+      state.comments = comments;
+    },
   },
   getters: {
     getStatus: (state) => {
@@ -83,6 +87,9 @@ const store = createStore({
     },
     getForums: (state) => {
       return state.forums;
+    },
+    getComments: (state) => {
+      return state.comments;
     },
   },
   actions: {
@@ -195,6 +202,19 @@ const store = createStore({
           });
       });
     },
+    getValidForums: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/forums?isValid=true")
+          .then((response) => {
+            commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
     createForum: ({ commit }, forum) => {
       return new Promise((resolve, reject) => {
         instance
@@ -227,6 +247,32 @@ const store = createStore({
           .delete("/forums/" + forum.id)
           .then((response) => {
             commit("deleteForum", response);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getAllComments: ({ commit }, forumId) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/comments?forum=" + forumId)
+          .then((response) => {
+            commit("setComments", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    createComment: ({ commit }, comment) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/comments", comment)
+          .then((response) => {
+            commit;
             resolve(response);
           })
           .catch((error) => {
