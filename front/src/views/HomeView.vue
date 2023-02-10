@@ -8,33 +8,28 @@
     </div>
   </v-parallax>
   <v-container>
-    <v-sheet class="mx-auto justify-center" elevation="8" max-width="1300">
-      <h5 class="text-h5 pt-5 text-center">New articles</h5>
-      <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
-        <v-slide-group-item
-          v-for="article in getArticlesOrder()"
-          :key="article.id"
-          v-slot="{ selectedClass }"
-        >
-          <CardArticle
-            :article="article"
-            :class="['ma-4', selectedClass]"
-          ></CardArticle>
-        </v-slide-group-item>
-      </v-slide-group>
-      <div class="d-flex justify-center mb-6 pb-5">
-        <v-btn color="success" @click="navigate('articles')">View More</v-btn>
-      </div>
-    </v-sheet>
+    <SliderItem
+      title="New articles"
+      :items="getArticlesOrder()"
+      itemType="article"
+    >
+      <template v-slot:sliderContent="{ item, selectedClass }">
+        <CardArticle
+          :class="['ma-4', selectedClass]"
+          :article="item"
+        ></CardArticle>
+      </template>
+    </SliderItem>
   </v-container>
 </template>
 
 <script>
 import CardArticle from "../components/CardArticle.vue";
+import SliderItem from "../components/SliderItem.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  components: { CardArticle },
+  components: { CardArticle, SliderItem },
   mounted() {
     this.$store.dispatch("getAllArticles");
   },
