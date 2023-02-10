@@ -17,7 +17,20 @@
     <tbody>
       <tr v-for="object in objectValues" :key="object.id">
         <td v-for="item in headers" :key="item.value">
-          {{ object[item.value] }}
+          <span v-if="typeof object[item.value] === 'boolean'">
+            <v-icon color="success" v-if="object[item.value] === true">
+              mdi-check
+            </v-icon>
+            <v-icon color="error" v-else> mdi-close </v-icon>
+          </span>
+
+          <span v-else>
+            <span v-if="item.objectValues === undefined">
+              {{ object[item.value] }}
+            </span>
+
+            <span v-else> {{ object[item.value][item.objectValues] }} </span>
+          </span>
         </td>
         <td>
           <v-btn color="primary" @click="linkEdit(routeEdit, object.id)">

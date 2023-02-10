@@ -4,7 +4,7 @@
     <h1 class="text-h2 text-center mb-10">Forums</h1>
     <div>
       <v-row class="mb-6" no-gutters align-content="space-evenly">
-        <v-col v-for="forum in getForums" :key="forum.id" :cols="cols">
+        <v-col v-for="forum in forums" :key="forum.id" :cols="cols">
           <CardForum :forum="forum"></CardForum>
         </v-col>
       </v-row>
@@ -17,8 +17,15 @@ import CardForum from "../components/CardForum.vue";
 
 export default {
   components: { CardForum },
+  data() {
+    return {
+      forums: [],
+    };
+  },
   mounted() {
-    this.$store.dispatch("getAllForums");
+    this.$store.dispatch("getValidForums").then(() => {
+      this.forums = this.getForums;
+    });
   },
   methods: {
     navigateTo(route) {

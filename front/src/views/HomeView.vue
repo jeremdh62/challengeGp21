@@ -54,7 +54,7 @@ export default {
     this.$store.dispatch("getAllArticles").then(() => {
       this.articles = this.getArticles;
     });
-    this.$store.dispatch("getAllForums").then(() => {
+    this.$store.dispatch("getValidForums").then(() => {
       this.forums = this.getForums;
     });
   },
