@@ -7,6 +7,8 @@ import AdminArticlesView from "../views/Admin/AdminArticlesView.vue";
 import AdminArticleEditView from "../views/Admin/AdminArticleEditView.vue";
 import ForumsView from "../views/ForumsView.vue";
 import ForumView from "../views/ForumView.vue";
+import AdminForumsView from "../views/Admin/AdminForumsView.vue";
+import AdminForumEditView from "../views/Admin/AdminForumEditView.vue";
 //import store from "../store";
 
 const router = createRouter({
@@ -35,6 +37,16 @@ const router = createRouter({
       path: "/admin/articles/:id",
       name: "admin-article-edit",
       component: AdminArticleEditView,
+    },
+    {
+      path: "/admin/forums",
+      name: "admin-forums",
+      component: AdminForumsView,
+    },
+    {
+      path: "/admin/forums/:id",
+      name: "admin-forum-edit",
+      component: AdminForumEditView,
     },
     {
       path: "/login",

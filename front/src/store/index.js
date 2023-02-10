@@ -64,6 +64,9 @@ const store = createStore({
     setForums: (state, forums) => {
       state.forums = forums;
     },
+    deleteForum: (state, forum) => {
+      state.forums = state.forums.filter((f) => f.id !== forum.id);
+    },
   },
   getters: {
     getStatus: (state) => {
@@ -185,6 +188,45 @@ const store = createStore({
           .get("/forums")
           .then((response) => {
             commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    createForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/forums", forum)
+          .then((response) => {
+            commit;
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    updateForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .put("/forums/" + forum.id, forum)
+          .then((response) => {
+            commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    deleteForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .delete("/forums/" + forum.id)
+          .then((response) => {
+            commit("deleteForum", response);
             resolve(response);
           })
           .catch((error) => {

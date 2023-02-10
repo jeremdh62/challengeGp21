@@ -41,7 +41,7 @@ class Forum
     private ?string $title = null;
 
     #[ORM\Column]
-    #[Groups(['read_Forum'])]
+    #[Groups(['read_Forum','write_Forum'])]
     private ?bool $isValid = false;
 
     #[ORM\OneToMany(mappedBy: 'forum', targetEntity: Comment::class)]
