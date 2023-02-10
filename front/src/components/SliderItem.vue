@@ -15,7 +15,7 @@
       </v-slide-group-item>
     </v-slide-group>
     <div class="d-flex justify-center mb-6 pb-5">
-      <v-btn color="success" @click="navigate('articles')">View More</v-btn>
+      <v-btn color="success" @click="navigate(linkMore)">View More</v-btn>
     </div>
   </v-sheet>
 </template>
@@ -30,7 +30,7 @@ export default {
       type: Array,
       required: true,
     },
-    itemType: {
+    linkMore: {
       type: String,
       required: true,
     },

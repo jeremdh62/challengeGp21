@@ -11,7 +11,7 @@
     <SliderItem
       title="New articles"
       :items="getArticlesOrder()"
-      itemType="article"
+      linkMore="articles"
     >
       <template v-slot:sliderContent="{ item, selectedClass }">
         <CardArticle

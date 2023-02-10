@@ -23,6 +23,7 @@ class Forum
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['read_Forum'])]
     private ?Uuid $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'forums')]

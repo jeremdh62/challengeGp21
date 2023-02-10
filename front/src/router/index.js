@@ -5,6 +5,8 @@ import RegisterView from "../views/RegisterView.vue";
 import DashboardView from "../views/Admin/DasboardView.vue";
 import AdminArticlesView from "../views/Admin/AdminArticlesView.vue";
 import AdminArticleEditView from "../views/Admin/AdminArticleEditView.vue";
+import ForumsView from "../views/ForumsView.vue";
+import ForumView from "../views/ForumView.vue";
 //import store from "../store";
 
 const router = createRouter({
@@ -48,6 +50,16 @@ const router = createRouter({
       path: "/articles",
       name: "articles",
       component: () => import("../views/ArticlesView.vue"),
+    },
+    {
+      path: "/forum/:id",
+      name: "forum",
+      component: ForumView,
+    },
+    {
+      path: "/forums",
+      name: "forums",
+      component: ForumsView,
     },
     {
       path: "/register",

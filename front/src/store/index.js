@@ -33,6 +33,7 @@ const store = createStore({
     user: user,
     userInfo: {},
     articles: [],
+    foums: [],
   },
   mutations: {
     setStatus: (state, status) => {
@@ -60,6 +61,9 @@ const store = createStore({
     deleteArticle: (state, article) => {
       state.articles = state.articles.filter((a) => a.id !== article.id);
     },
+    setForums: (state, forums) => {
+      state.forums = forums;
+    },
   },
   getters: {
     getStatus: (state) => {
@@ -73,6 +77,9 @@ const store = createStore({
     },
     getArticles: (state) => {
       return state.articles;
+    },
+    getForums: (state) => {
+      return state.forums;
     },
   },
   actions: {
@@ -165,6 +172,19 @@ const store = createStore({
           .delete("/articles/" + article.id)
           .then((response) => {
             commit("deleteArticle", article);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getAllForums: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/forums")
+          .then((response) => {
+            commit("setForums", response.data);
             resolve(response);
           })
           .catch((error) => {
