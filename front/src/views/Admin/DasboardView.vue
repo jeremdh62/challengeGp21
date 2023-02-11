@@ -13,6 +13,12 @@
           title="Articles"
           @click="navigateTo('admin-articles')"
         ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-forum"
+          append-icon="mdi-chevron-right"
+          title="Forums"
+          @click="navigateTo('admin-forums')"
+        ></v-list-item>
       </v-list>
     </v-card>
   </v-container>

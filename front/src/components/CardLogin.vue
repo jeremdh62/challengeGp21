@@ -66,6 +66,7 @@ export default {
       }
     },
     login() {
+      // TODO: Login
       this.$store
         .dispatch("login", {
           username: this.username,

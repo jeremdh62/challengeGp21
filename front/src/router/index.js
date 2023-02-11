@@ -5,8 +5,14 @@ import RegisterView from "../views/RegisterView.vue";
 import DashboardView from "../views/Admin/DasboardView.vue";
 import AdminArticlesView from "../views/Admin/AdminArticlesView.vue";
 import AdminArticleEditView from "../views/Admin/AdminArticleEditView.vue";
+import ForumsView from "../views/ForumsView.vue";
+import ForumView from "../views/ForumView.vue";
+import AdminForumsView from "../views/Admin/AdminForumsView.vue";
+import AdminForumEditView from "../views/Admin/AdminForumEditView.vue";
+import ForumEdit from "../views/ForumEditView.vue";
 //import store from "../store";
 
+// TODO: Login redirect
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,6 +41,16 @@ const router = createRouter({
       component: AdminArticleEditView,
     },
     {
+      path: "/admin/forums",
+      name: "admin-forums",
+      component: AdminForumsView,
+    },
+    {
+      path: "/admin/forums/:id",
+      name: "admin-forum-edit",
+      component: AdminForumEditView,
+    },
+    {
       path: "/login",
       name: "login",
       component: LoginView,
@@ -48,6 +64,21 @@ const router = createRouter({
       path: "/articles",
       name: "articles",
       component: () => import("../views/ArticlesView.vue"),
+    },
+    {
+      path: "/forum/:id",
+      name: "forum",
+      component: ForumView,
+    },
+    {
+      path: "/forums",
+      name: "forums",
+      component: ForumsView,
+    },
+    {
+      path: "/forums/edit/:id",
+      name: "forum-edit",
+      component: ForumEdit,
     },
     {
       path: "/register",

@@ -8,41 +8,75 @@
     </div>
   </v-parallax>
   <v-container>
-    <SliderItem
-      title="New articles"
-      :items="getArticlesOrder()"
-      itemType="article"
-    >
-      <template v-slot:sliderContent="{ item, selectedClass }">
-        <CardArticle
-          :class="['ma-4', selectedClass]"
-          :article="item"
-        ></CardArticle>
-      </template>
-    </SliderItem>
+    <div v-if="this.articles.length > 0">
+      <SliderItem
+        title="New articles"
+        :items="getArticlesOrder()"
+        linkMore="articles"
+      >
+        <template v-slot:sliderContent="{ item, selectedClass }">
+          <CardArticle
+            :class="['ma-4', selectedClass]"
+            :article="item"
+          ></CardArticle>
+        </template>
+      </SliderItem>
+    </div>
+    <div v-if="this.forums.length > 0">
+      <SliderItem
+        title="New forums"
+        :items="getForumsOrder()"
+        linkMore="forums"
+      >
+        <template v-slot:sliderContent="{ item, selectedClass }">
+          <CardForum :class="['ma-4', selectedClass]" :forum="item"></CardForum>
+        </template>
+      </SliderItem>
+    </div>
   </v-container>
 </template>
 
 <script>
 import CardArticle from "../components/CardArticle.vue";
+import CardForum from "../components/CardForum.vue";
 import SliderItem from "../components/SliderItem.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  components: { CardArticle, SliderItem },
+  data() {
+    return {
+      articles: [],
+      forums: [],
+    };
+  },
+  components: { CardArticle, SliderItem, CardForum },
   mounted() {
-    this.$store.dispatch("getAllArticles");
+    this.$store.dispatch("getAllArticles").then(() => {
+      this.articles = this.getArticles;
+    });
+    this.$store.dispatch("getValidForums").then(() => {
+      this.forums = this.getForums;
+    });
   },
   computed: {
-    ...mapGetters(["getArticles"]),
+    ...mapGetters(["getArticles", "getForums"]),
   },
   methods: {
     getArticlesOrder() {
-      const articles = this.getArticles.sort((a, b) => {
+      const articlesSorted = this.articles.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
 
-      return articles.slice(0, 10);
+      return articlesSorted.slice(0, 10);
+    },
+    getForumsOrder() {
+      if (this.forums.length > 0) {
+        const forumsSorted = this.forums.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        return forumsSorted.slice(0, 10);
+      }
     },
     navigate(route) {
       this.$router.push({ name: route });

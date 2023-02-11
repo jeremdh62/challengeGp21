@@ -18,7 +18,7 @@ if (!user) {
 } else {
   user = JSON.parse(user);
   try {
-    instance.defaults.headers.common["Authorization"] = user.token;
+    instance.defaults.headers.common["Authorization"] = user.token; // TODO: Bearer
   } catch (error) {
     user = {
       id: "",
@@ -33,6 +33,8 @@ const store = createStore({
     user: user,
     userInfo: {},
     articles: [],
+    forums: [],
+    comments: [],
   },
   mutations: {
     setStatus: (state, status) => {
@@ -41,13 +43,14 @@ const store = createStore({
     logUser: (state, user) => {
       state.user.id = user.id;
       state.user.token = user.token;
-      instance.defaults.headers.common["Authorization"] = user.token;
+      instance.defaults.headers.common["Authorization"] = user.token; // TODO: Bearer
       localStorage.setItem("user", JSON.stringify(user));
     },
     userInfo: (state, userInfo) => {
       state.userInfo = userInfo;
     },
     logout: (state) => {
+      // TODO: logout user
       state.user.id = "";
       state.user.token = "";
       state.userInfo = {};
@@ -59,6 +62,15 @@ const store = createStore({
     },
     deleteArticle: (state, article) => {
       state.articles = state.articles.filter((a) => a.id !== article.id);
+    },
+    setForums: (state, forums) => {
+      state.forums = forums;
+    },
+    deleteForum: (state, forum) => {
+      state.forums = state.forums.filter((f) => f.id !== forum.id);
+    },
+    setComments: (state, comments) => {
+      state.comments = comments;
     },
   },
   getters: {
@@ -74,9 +86,16 @@ const store = createStore({
     getArticles: (state) => {
       return state.articles;
     },
+    getForums: (state) => {
+      return state.forums;
+    },
+    getComments: (state) => {
+      return state.comments;
+    },
   },
   actions: {
     createAccount: ({ commit }, userInfo) => {
+      // TODO: register user
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
@@ -92,6 +111,7 @@ const store = createStore({
       });
     },
     login: ({ commit }, userInfo) => {
+      // TODO: login user
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
@@ -165,6 +185,97 @@ const store = createStore({
           .delete("/articles/" + article.id)
           .then((response) => {
             commit("deleteArticle", article);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getAllForums: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/forums")
+          .then((response) => {
+            commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getValidForums: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/forums?isValid=true")
+          .then((response) => {
+            commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    createForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/forums", forum)
+          .then((response) => {
+            commit;
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    updateForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .put("/forums/" + forum.id, forum)
+          .then((response) => {
+            commit("setForums", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    deleteForum: ({ commit }, forum) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .delete("/forums/" + forum.id)
+          .then((response) => {
+            commit("deleteForum", response);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getAllComments: ({ commit }, forumId) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .get("/comments?forum=" + forumId)
+          .then((response) => {
+            commit("setComments", response.data);
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    createComment: ({ commit }, comment) => {
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/comments", comment)
+          .then((response) => {
+            commit;
             resolve(response);
           })
           .catch((error) => {

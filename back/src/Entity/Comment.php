@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,6 +19,9 @@ use Symfony\Component\Uid\Uuid;
     normalizationContext: ['groups' => ['read_Comment']],
     denormalizationContext: ['groups' => ['write_Comment']]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'forum' => 'exact',
+])]
 class Comment
 {
     #[ORM\Id]
