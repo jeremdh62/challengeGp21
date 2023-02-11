@@ -19,7 +19,7 @@ export default {
     headers: [
       { name: "Title", value: "title" },
       { name: "Created At", value: "createdAt" },
-      { name: "Created By", value: "createdBy", objectValues: "username" },
+      { name: "Created By", value: "createdBy", valueKey: "username" },
       { name: "Validated", value: "isValid" },
     ],
     forums: [],

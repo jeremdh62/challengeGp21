@@ -92,6 +92,7 @@ export default {
       }
     },
     createAccount() {
+      // TODO: Register user
       this.$store
         .dispatch("createAccount", {
           username: this.username,

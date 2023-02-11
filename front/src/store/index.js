@@ -18,7 +18,7 @@ if (!user) {
 } else {
   user = JSON.parse(user);
   try {
-    instance.defaults.headers.common["Authorization"] = user.token;
+    instance.defaults.headers.common["Authorization"] = user.token; // TODO: Bearer
   } catch (error) {
     user = {
       id: "",
@@ -43,13 +43,14 @@ const store = createStore({
     logUser: (state, user) => {
       state.user.id = user.id;
       state.user.token = user.token;
-      instance.defaults.headers.common["Authorization"] = user.token;
+      instance.defaults.headers.common["Authorization"] = user.token; // TODO: Bearer
       localStorage.setItem("user", JSON.stringify(user));
     },
     userInfo: (state, userInfo) => {
       state.userInfo = userInfo;
     },
     logout: (state) => {
+      // TODO: logout user
       state.user.id = "";
       state.user.token = "";
       state.userInfo = {};
@@ -94,6 +95,7 @@ const store = createStore({
   },
   actions: {
     createAccount: ({ commit }, userInfo) => {
+      // TODO: register user
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
@@ -109,6 +111,7 @@ const store = createStore({
       });
     },
     login: ({ commit }, userInfo) => {
+      // TODO: login user
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance

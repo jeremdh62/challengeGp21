@@ -12,6 +12,7 @@ import AdminForumEditView from "../views/Admin/AdminForumEditView.vue";
 import ForumEdit from "../views/ForumEditView.vue";
 //import store from "../store";
 
+// TODO: Login redirect
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

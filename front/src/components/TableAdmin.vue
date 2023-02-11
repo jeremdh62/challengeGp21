@@ -25,11 +25,11 @@
           </span>
 
           <span v-else>
-            <span v-if="item.objectValues === undefined">
+            <span v-if="item.valueKey === undefined">
               {{ object[item.value] }}
             </span>
 
-            <span v-else> {{ object[item.value][item.objectValues] }} </span>
+            <span v-else> {{ object[item.value][item.valueKey] }} </span>
           </span>
         </td>
         <td>
