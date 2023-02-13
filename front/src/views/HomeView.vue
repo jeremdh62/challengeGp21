@@ -4,7 +4,7 @@
       class="d-flex flex-column fill-height justify-center align-center text-white"
     >
       <h1 class="text-h4 font-weight-thin mb-4">WE Ballin'</h1>
-      <h4 class="subheading">Welcome</h4>
+      <h4 class="subheading">Welcome Test</h4>
     </div>
   </v-parallax>
   <v-container>
