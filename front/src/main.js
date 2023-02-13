@@ -10,6 +10,11 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 
+// quill editor (Text Rich Editor)
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+import { QuillEditor } from "@vueup/vue-quill";
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -22,5 +27,7 @@ app.use(router);
 app.use(store);
 
 app.use(vuetify);
+
+app.component("QuillEditor", QuillEditor);
 
 app.mount("#app");

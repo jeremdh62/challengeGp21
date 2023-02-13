@@ -9,7 +9,7 @@
 
     <v-spacer></v-spacer>
 
-    <!-- connect -->
+    <!-- TODO: check if user is connect display login / logout -->
     <v-btn icon @click="navigateTo('login')">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
@@ -24,6 +24,29 @@
         @click="navigateTo('home')"
       >
       </v-list-item>
+      <v-list-item
+        prepend-icon="mdi-newspaper"
+        title="Aticles"
+        value="articles"
+        @click="navigateTo('articles')"
+      >
+      </v-list-item>
+      <v-list-item
+        prepend-icon="mdi-forum"
+        title="Forums"
+        value="forums"
+        @click="navigateTo('forums')"
+      >
+      </v-list-item>
+      <!-- TODO: verify if user is admin -->
+      <v-list-item
+        prepend-icon="mdi-monitor-dashboard"
+        title="admin"
+        value="admin"
+        @click="navigateTo('admin')"
+      >
+      </v-list-item>
+      <!-- END TODO: verify if user is admin -->
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -5,10 +5,15 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SignaledCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SignaledCommentRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read_SignaledComment']],
+    denormalizationContext: ['groups' => ['write_SignaledComment']]
+)]
 class SignaledComment
 {
     #[ORM\Id]
@@ -19,14 +24,18 @@ class SignaledComment
 
     #[ORM\ManyToOne(inversedBy: 'signaledComments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_SignaledComment'])]
+    #[Blameable(on: 'create')]
     private ?User $signaledBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'mySignaledComments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_SignaledComment', 'write_SignaledComment'])]
     private ?User $signaledUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'signaledComments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_SignaledComment', 'write_SignaledComment'])]
     private ?Comment $comment = null;
 
     public function getId(): ?Uuid

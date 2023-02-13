@@ -2,16 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read_Comment']],
+    denormalizationContext: ['groups' => ['write_Comment']]
+)]
+#[ApiFilter(SearchFilter::class, properties: [
+    'forum' => 'exact',
+])]
 class Comment
 {
     #[ORM\Id]
@@ -21,24 +31,31 @@ class Comment
     private ?Uuid $id = null;
 
     #[ORM\Column]
+    #[Groups(['read_Comment'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_Comment'])]
+    #[Blameable(on: 'create')]
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read_Comment', 'write_Comment'])]
     private ?Forum $forum = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['read_Comment', 'write_Comment'])]
     private ?string $content = null;
 
     #[ORM\OneToMany(mappedBy: 'comment', targetEntity: SignaledComment::class)]
+    #[Groups(['read_Comment'])]
     private Collection $signaledComments;
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable("now", new \DateTimeZone("Europe/Paris"));
         $this->signaledComments = new ArrayCollection();
     }
 
