@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: import.meta.env.VITE_URL_API,
   headers: {
     accept: "application/json",
     "Content-Type": "application/json",
