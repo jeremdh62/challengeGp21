@@ -1,6 +1,4 @@
-# .github/workflows/preview.yml
-
-name: Preview Environment
+name: Deploy front
 
 env:
   VERCEL_ACCESS_TOKEN: ${{ secrets.VERCEL_ACCESS_TOKEN }}
@@ -11,10 +9,12 @@ on:
     types: [opened, synchronize, closed]
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
-    if: ${{ github.event.action == 'opened' || github.event.action == 'synchronize' }}
     runs-on: ubuntu-latest
     steps:
       - uses: snaplet/vercel-action@v2
