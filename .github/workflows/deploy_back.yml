@@ -1,7 +1,23 @@
-uses: axelerant/platformsh-deploy-action@v1
-with:
-  project-id: ${{ secrets.PLATFORM_PROJECT_ID }}
-  cli-token: ${{ secrets.CLI_TOKEN }}
-  ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
-  php-version: 8.1
-  force-push: true
+name: Deploy back
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: ${{ github.event.action == 'opened' || github.event.action == 'synchronize' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: axelerant/platformsh-deploy-action@v1
+    with:
+      project-id: ${{ secrets.PLATFORM_PROJECT_ID }}
+      cli-token: ${{ secrets.CLI_TOKEN }}
+      ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+      php-version: 8.1
+      force-push: true
