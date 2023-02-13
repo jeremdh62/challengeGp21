@@ -1,0 +1,7 @@
+uses: axelerant/platformsh-deploy-action@v1
+with:
+  project-id: ${{ secrets.PLATFORM_PROJECT_ID }}
+  cli-token: ${{ secrets.CLI_TOKEN }}
+  ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+  php-version: 8.1
+  force-push: true
