@@ -52,7 +52,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
             ref: 'JWT Token',
             post: new Model\Operation(
                 operationId: 'postCredentialsItem',
-                tags: ['Token'],
+                tags: ['Authentification'],
                 responses: [
                     '200' => [
                         'description' => 'Get JWT token',
@@ -79,7 +79,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 security: [],
             ),
         );
-        $openApi->getPaths()->addPath('/auth', $pathItem);
+        $openApi->getPaths()->addPath('/login', $pathItem);
 
         return $openApi;
     }

@@ -26,10 +26,12 @@ class ResetPasswordController extends AbstractController
             throw $this->createNotFoundException();
         }
         
-        $user->setToken(bin2hex(random_bytes(32)));
+        if(!$user->getToken()){
+            $user->setToken(bin2hex(random_bytes(32)));
+        }
         $this->managerRegistry->getManager()->flush();
         
         // TODO : send email
-        return $this->json('Success');
+        return $this->json('Success : Reset password');
     }
 }

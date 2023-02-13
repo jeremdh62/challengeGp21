@@ -9,6 +9,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\EmailVerifierController;
+use App\Controller\RegisterController;
 use App\Controller\ResetPasswordController;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
@@ -34,6 +36,9 @@ use Symfony\Component\Uid\Uuid;
     security: "is_granted('ROLE_MODERATOR')",
 )]
 #[Post(
+    name: 'user_register',
+    uriTemplate: 'register',
+    controller: RegisterController::class,
     denormalizationContext: ['groups' => ['user_write']],
     processor: UserPasswordHasher::class
 )]
@@ -50,7 +55,7 @@ use Symfony\Component\Uid\Uuid;
     name: 'reset_password',
     uriTemplate: 'users/{id}/reset/password',
     controller: ResetPasswordController::class,
-    denormalizationContext: ['groups' => ['user_update']],
+    denormalizationContext: ['groups' => ['userp_update']],
     processor: UserPasswordHasher::class,
     security: "is_granted('ROLE_ADMIN') or object == user",
 )]
@@ -77,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['getc_user', 'user_write', 'user_update'])]
+    #[Groups(['getc_user', 'user_write', 'user_update', 'userp_update'])]
     private ?string $password = null;
     
     #[ORM\Column(length: 255, nullable: true)]
@@ -115,6 +120,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'signaledUser', targetEntity: SignaledComment::class)]
     private Collection $mySignaledComments;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isVerify = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -126,6 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->forums = new ArrayCollection();
         $this->signaledComments = new ArrayCollection();
         $this->mySignaledComments = new ArrayCollection();
+        $this->isVerify = false;
     }
 
     public function getId(): ?Uuid
@@ -485,6 +494,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $mySignaledComment->setSignaledUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsVerify(): ?bool
+    {
+        return $this->isVerify;
+    }
+
+    public function setIsVerify(?bool $isVerify): self
+    {
+        $this->isVerify = $isVerify;
 
         return $this;
     }
